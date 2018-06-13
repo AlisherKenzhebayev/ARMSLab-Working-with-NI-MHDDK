@@ -9,7 +9,13 @@ Tips and Tutorials Passages That You Will Need (TTPTYWN):
 7. Where do I get the Product ID and Vendor ID for my hardware?
 
 
-In order to register a driver for a device with the operating system, you will need the Product ID and Vendor ID for your device. The Vendor ID for any National Instruments PCI/PXI device is 0x1093, and, for most devices, the Product ID will identify the specific device model. However, all X Series devices have the Product ID 0xC4C4, so you will need to use the Subsystem Product ID to differentiate between X Series models. Finding the IDs will be operating system specific.
+In order to register a driver for a device with the operating system, 
+    you will need the Product ID and Vendor ID for your device.
+The Vendor ID for any National Instruments PCI/PXI device is 0x1093, and, 
+    for most devices, the Product ID will identify the specific device model. 
+However, all X Series devices have the Product ID 0xC4C4, so you will need to 
+    use the Subsystem Product ID to differentiate between X Series models.
+Finding the IDs will be operating system specific.
 
 Windows:
 
@@ -39,9 +45,9 @@ The MHDDK supports several operating systems:
 
 5. How do I use the MHDDK on a different operating system?
 
-```
+``` tml
 The MHDDK makes use of C++ classes called Chip Objects to abstract hardware functionality from hardware access. 
 The Chip Objects in turn use an iBus class to handle interaction with the operating system and the details of hardware access. 
-The iBus class is designed to be easily ported to another operating system and the procedure is described in How to Make an iBus.
-[LINK](http://www.ni.com/tutorial/54497/en/)
+The iBus class is designed to be easily ported to another operating system and the procedure is described in .
+[How to Make an iBus](http://www.ni.com/tutorial/54497/en/)]
 ```
