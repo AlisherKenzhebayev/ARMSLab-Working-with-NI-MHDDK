@@ -46,8 +46,10 @@ The MHDDK supports several operating systems:
 5. How do I use the MHDDK on a different operating system?
 
 ``` tml
-The MHDDK makes use of C++ classes called Chip Objects to abstract hardware functionality from hardware access. 
-The Chip Objects in turn use an iBus class to handle interaction with the operating system and the details of hardware access. 
-The iBus class is designed to be easily ported to another operating system and the procedure is described in .
-[How to Make an iBus](http://www.ni.com/tutorial/54497/en/)]
+The MHDDK makes use of C++ classes called Chip Objects to abstract 
+    hardware functionality from hardware access. 
+The Chip Objects in turn use an iBus class to handle interaction with 
+    the operating system and the details of hardware access. 
+The iBus class is designed to be easily ported to another 
+    operating system and the procedure is described in How to Make an iBus.
 ```
