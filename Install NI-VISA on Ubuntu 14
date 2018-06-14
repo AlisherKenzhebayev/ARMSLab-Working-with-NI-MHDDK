@@ -1,0 +1,97 @@
+Hi, everybody.
+
+I have successfully installed NI-VISA on Arch Linux and Ubuntu 14.04 64-bit systems.
+
+There are several topics about introducing NI-VISA Debian-based distros, they are quite old or see unfixed problem.
+
+That is why I decided to post a brief tutorial for installation.
+
+1. Install required libraries.
+
+On non-rpm based systems like Arch or Debians, you need a functional rpm command.
+
+It is packed in rpm-org in AUR or alien in APT.
+
+Also requires kernel headers, which are available as linux-headers (Arch) or linux-headers-generic (Ubuntu)
+
+During installation, one of the post-installation scripts uses /sbin/chkconfig, which is not available in Arch or Ubuntu.
+
+But we can fake the installer by making an empty chkconfig command:
+
+touch /sbin/chkconfig
+
+chmod +x /sbin/chkconfig
+
+Additionally, there are some specific libraries to run 32-bit binaries in the case of 64-bit OS:
+
+    libc (libc6:i386 / lib32-glibc)
+    libxinerama (libxinerama1:i386 / lib32-libxinerama)
+    c++ libs (libstdc++6:i386 / lib32-gcc-libs)
+    libGL (llibgl1-mesa-glx:i386 / lib32-mesa-libgl)
+    In 32-bit OSs, install 32-bit counterparts.
+
+2. Install NI-VISA.
+
+Once libraries are prepared, this step is straightforward.
+
+First, download .iso image from http://www.ni.com/download/ni-visa-15.5/5848/en/
+
+Second, mount or extract the iso file.
+
+Then, cd to the mounted/extracted folder and run ./INSTALL --nodeps as root.
+
+(Note: using rpm command directly to install packages is never recommended by distros. Do it at your own risk!)
+
+3. Post-installation task
+
+After installation, rebuild the kernel drivers with:
+
+updateNIDrivers
+
+Note that whenever you upgrade/downgrade the Linux kernel, you need to rebuild them.
+
+The drivers must be loaded prior to the usage of VISA libraries.
+
+Furthremore, there are some tasks to enable full functionality.
+
+To perform these, run
+
+    /etc/init.d/nipal start
+
+Alternatively, on systemd-based systems (Arch Linux is), you can use this post-installation utility:
+
+https://onedrive.live.com/redir?resid=E0C06690E747992B!13939&authkey=!AOAk8O_LPPxp2B8&ithint=file%2c...
+
+SHA256: 7d6c6a11e904eb5ff93a26f5c456aeaaa7c44000c540e27d98e3ba33656da764
+
+Extract the contents and run post_install.sh as root.
+
+Now you should be able to run visaconf or NIvisaic, and you will see your instruments.
+
+4. Notes on USB devices
+
+Sometimes VISA might not see USB-based devices (no device on list, "Resource Busy" error, etc.)
+
+In case that happens, try these things.
+
+(a) run as root
+
+You may be able to use USB devices only with root priviliges.
+
+This is because sufficient permission to manipulate hardwares is not given to normal users.
+
+Try a script by NI
+
+  /usr/local/vxipnp/linux/NIvisa/USB/AddUsbRawPermissions.sh
+
+or add permissions manually
+
+   https://github.com/python-ivi/python-usbtmc#configuring-udev
+
+(b) unload usbtmc kernel module
+
+Another common situation is that a native kernel usbtmc modules is blocking access from VISA.
+
+    To check if it is loaded: $ lsmod | grep usbtmc
+    If it is:  # rmmod usbtmc, and see if it works.
+    If it does, consider "blacklisting" it:  # echo 'blacklist usbtmc' > /etc/modprobe.d/nousbtmc.conf
